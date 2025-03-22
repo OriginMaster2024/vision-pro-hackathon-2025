@@ -135,7 +135,7 @@ struct ImmersiveView: View {
                     currentSphere?.setPosition(spherePosition, relativeTo: nil)
                 }
                 
-                let destinations = findLineAndSphereIntersection(point1: wristPosition, point2: fingerPosition, sphereCenter: SIMD3<Float>.zero, radius: 10)
+                let destinations = findLineAndSphereIntersection(point1: wristPosition, point2: fingerPosition, sphereCenter: SIMD3<Float>.zero, radius: 50)
                 
                 // 交点のうち奥のものを取得
                 var destination: SIMD3<Float>?
@@ -148,7 +148,7 @@ struct ImmersiveView: View {
                 guard let destination = destination else {
                     continue;
                 }
-                
+                                
                 tracker.setPosition(destination, relativeTo: nil)
                 
                 // 加速度計算
@@ -168,7 +168,7 @@ struct ImmersiveView: View {
                     if a < -0.003 {
                         if appModel.lastPunchedAt == nil || Date().timeIntervalSince(appModel.lastPunchedAt!) > 1.0 {
                             guard let currentSphere else { continue }
-                            
+
                             appModel.lastPunchedAt = Date()
                             shootStar(star: currentSphere, destination: destination)
                             
@@ -182,10 +182,12 @@ struct ImmersiveView: View {
     
     var constellationView: some View {
         ZStack {
-            ForEach(appModel.correctStarPositions) { position in
-                SphereView(position: position.simd3)
-                    .frame(depth: 0)
+            ForEach(appModel.guideNodes, id: \.self) { node in
+                RealityView { content in
+                    content.add(node)
+                }.frame(depth: 0)
             }
+            
             ForEach(appModel.correctLines) { line in
                 LineSegmentView(head: line.head, tail: line.tail)
                     .frame(depth: 0)
@@ -201,10 +203,15 @@ struct ImmersiveView: View {
             }
         }
     }
-    
+        
     private func shootStar(star: Entity, destination: SIMD3<Float>) {
-        Shooter.shoot(entity: star, to: destination)
+        Shooter.shoot(entity: star,scale: [0.1, 0.1, 0.1], to: destination)
         appModel.starIndexToShoot += 1
+
+        appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
+        if appModel.starIndexToShoot < appModel.correctStarPositions.count {
+            appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 3)
+        }
         
         if let audio = appModel.beamAudio {
             beamSpeaker.playAudio(audio)
