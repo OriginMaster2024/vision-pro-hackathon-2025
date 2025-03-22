@@ -14,7 +14,7 @@ struct SelectView: View {
     
     var body: some View {
         VStack {
-            Text("コースを選ぶ").font(.system(size: 70))
+            Text("コースを選ぶ").fontKaiseiDecol(size: 70)
             HStack(spacing: 40) {
                 CourseButton(level: "初級", constellation: "カシオペア座") {
                     Task {
@@ -43,8 +43,8 @@ struct SelectView: View {
         var body: some View {
             Button(action: action) {
                 VStack(spacing: 20) {
-                    Text(level).font(.system(size: 50))
-                    Text(constellation)
+                    Text(level).fontKaiseiDecol(size: 50)
+                    Text(constellation).fontKaiseiDecol(size: 24)
                 }
                 .frame(width: 250, height: 230)
             }
