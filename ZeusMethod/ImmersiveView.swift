@@ -11,8 +11,8 @@ import SwiftUI
 
 struct ImmersiveView: View {
     @Environment(AppModel.self) var appModel
-
-    @State private var sphere: Entity?
+    
+    @State private var starIndexToShoot: Int = 0
 
     var body: some View {
         RealityView { content in
@@ -23,15 +23,13 @@ struct ImmersiveView: View {
         }
 
         RealityView { content in
-            if let sphere = try? await Entity(named: "Sphere", in: realityKitContentBundle) {
-                sphere.position = [0, 1, -1]
-                content.add(sphere)
-                self.sphere = sphere
+            appModel.spheres.forEach {
+                content.add($0)
             }
         }
         .gesture(TapGesture().onEnded {
-            guard let sphere else { return }
-            Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
+            Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: SIMD3(0, 2, -10))
+            self.starIndexToShoot += 1
         })
     }
 }
