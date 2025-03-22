@@ -22,7 +22,6 @@ struct ResultView: View {
             Text(zeusMessage)
                 .font(.system(size: 30))
         }
-        .padding(40)
         .onAppear() {
             zeusVoice.speech(text: zeusMessage)
         }
