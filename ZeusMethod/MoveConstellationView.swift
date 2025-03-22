@@ -55,6 +55,15 @@ struct MoveConstellationView: View {
             .map { Position(simd3: $0) }
     }
     
+    var roatedAndscaledPositions: [Position] {
+        scaleAnglesAroundCenter(
+            positions: roatedPositions.map { $0.simd3 },
+            center: targetCenter,
+            angleScale: 6
+        )
+        .map { Position(simd3: $0) }
+    }
+    
     var body: some View {
         ZStack {
             ForEach(positions) { position in
@@ -69,6 +78,11 @@ struct MoveConstellationView: View {
             
             ForEach(roatedPositions) { position in
                 GlowingSphereView(position: position.simd3, scale: 1)
+                    .frame(depth: 0)
+            }
+            
+            ForEach(roatedAndscaledPositions) { position in
+                GlowingSphereView(position: position.simd3, scale: 3)
                     .frame(depth: 0)
             }
         }
@@ -95,6 +109,40 @@ struct MoveConstellationView: View {
         let axis = simd_normalize(simd_cross(normA, normB))
         let angle = acos(simd_clamp(dot, -1, 1))
         return simd_quatf(angle: angle, axis: axis)
+    }
+    
+    /*
+     方針（正味よくわからん）
+     各 p に対して、center → p のベクトル（差分）を取る
+     そのベクトルを、center の方向を軸として、中心（center）を原点とする回転を行う
+     回転の角度は、center ベクトルとのなす角を測って、それを 1.2 倍にする
+     */
+    
+    func scaleAnglesAroundCenter(positions: [SIMD3<Float>], center: SIMD3<Float>, angleScale: Float) -> [SIMD3<Float>] {
+        return positions.map { point in
+            let v = point - center
+            let dir = simd_normalize(center)
+            let vNorm = simd_normalize(v)
+            
+            let dot = simd_clamp(simd_dot(dir, vNorm), -1, 1)
+            let angle = acos(dot)
+            
+            // 回転軸（centerとvの外積）
+            var axis = simd_cross(dir, vNorm)
+            let axisLength = simd_length(axis)
+            
+            if axisLength < 1e-6 {
+                // 同一線上の場合は回転不要または反対方向に180度（無視してもOK）
+                return point
+            }
+            
+            axis = simd_normalize(axis)
+            let deltaAngle = angle * (angleScale - 1.0)
+            
+            let q = simd_quatf(angle: deltaAngle, axis: axis)
+            let rotatedV = q.act(v)
+            return center + rotatedV
+        }
     }
 }
 
