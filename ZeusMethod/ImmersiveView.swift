@@ -118,20 +118,34 @@ struct ImmersiveView: View {
                 
                 tracker.setPosition(destination, relativeTo: nil)
                 
-                // ボールを飛ばす
-                if appModel.punchStatus == .waiting {
-                    if wristPosition.z < -0.1 {
-                        print("Punched! from: \(wristPosition), to: \(destination)")
-                        appModel.punchStatus = .active
-                        if self.starIndexToShoot < 5 {
-                            Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: destination)
-                            self.starIndexToShoot += 1
+                // 加速度計算
+                appModel.prevPositions.append(wristPosition)
+                if appModel.prevPositions.count > 3 {
+                    appModel.prevPositions = Array(appModel.prevPositions.dropFirst(
+                        appModel.prevPositions.count - 3
+                    ))
+                }
+                if appModel.prevPositions.count == 3 {
+                    let v1 = appModel.prevPositions[0] - appModel.prevPositions[1]
+                    let v2 = appModel.prevPositions[1] - appModel.prevPositions[2]
+                    
+                    let a = simd_length(v2 - v1)
+                    
+                    // ボールを飛ばす
+                    if appModel.punchStatus == .waiting {
+                        if a > 0.003 {
+                            print("Punched! from: \(wristPosition), to: \(destination)")
+                            appModel.punchStatus = .active
+                            if self.starIndexToShoot < 5 {
+                                Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: destination)
+                                self.starIndexToShoot += 1
+                            }
                         }
                     }
-                }
-                if appModel.punchStatus == .active {
-                    if wristPosition.z >= 0 {
-                        appModel.punchStatus = .waiting
+                    if appModel.punchStatus == .active {
+                        if a < 0.0001 {
+                            appModel.punchStatus = .waiting
+                        }
                     }
                 }
             }
