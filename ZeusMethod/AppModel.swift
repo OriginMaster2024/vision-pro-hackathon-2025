@@ -23,5 +23,8 @@ class AppModel {
     var spheres: [Entity] = []
     
     // パンチの状態
-    var punchStatus = PunchStatus.waiting
+    var punchStatus = PunchStatus.active // 誤作動を防ぐため、最初はアクティブにしておく
+    
+    // 加速度計算のための直前2回のposition
+    var prevPositions: [SIMD3<Float>] = []
 }
