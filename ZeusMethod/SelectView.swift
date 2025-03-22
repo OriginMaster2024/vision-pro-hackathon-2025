@@ -33,6 +33,18 @@ struct SelectView: View {
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .bottomOrnament) {
+                Button(action: {
+                    // Close Immersive Space
+                }, label: {
+                    HStack {
+                        Image(systemName: "door.right.hand.open")
+                        Text("道場を出る")
+                    }
+                })
+            }
+        }
     }
     
     struct CourseButton: View {
