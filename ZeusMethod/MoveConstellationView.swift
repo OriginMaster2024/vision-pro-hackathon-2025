@@ -55,13 +55,20 @@ struct MoveConstellationView: View {
             .map { Position(simd3: $0) }
     }
     
-    var roatedAndscaledPositions: [Position] {
-        scaleAnglesAroundCenter(
-            positions: roatedPositions.map { $0.simd3 },
-            center: targetCenter,
-            angleScale: 6
-        )
-        .map { Position(simd3: $0) }
+//    var roatedAndscaledPositions: [Position] {
+//        scaleAnglesAroundCenter(
+//            positions: roatedPositions.map { $0.simd3 },
+//            center: targetCenter,
+//            angleScale: 6
+//        )
+//        .map { Position(simd3: $0) }
+//    }
+    
+    
+    let a: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
+    let c: SIMD3<Float> = .init(x: 2, y: 10, z: -40)
+    var b: SIMD3<Float> {
+        findPointBDoubleAngle3D(a: a, c: c)
     }
     
     var body: some View {
@@ -76,15 +83,22 @@ struct MoveConstellationView: View {
             SphereView(position: targetCenter, radius: 0.5)
                 .frame(depth: 0)
             
-            ForEach(roatedPositions) { position in
-                GlowingSphereView(position: position.simd3, scale: 1)
-                    .frame(depth: 0)
-            }
+//            ForEach(roatedPositions) { position in
+//                GlowingSphereView(position: position.simd3, scale: 1)
+//                    .frame(depth: 0)
+//            }
+//            
+//            ForEach(roatedAndscaledPositions) { position in
+//                GlowingSphereView(position: position.simd3, scale: 3)
+//                    .frame(depth: 0)
+//            }
             
-            ForEach(roatedAndscaledPositions) { position in
-                GlowingSphereView(position: position.simd3, scale: 3)
-                    .frame(depth: 0)
-            }
+            GlowingSphereView(position: a, scale: 1)
+                .frame(depth: 0)
+            GlowingSphereView(position: c, scale: 1)
+                .frame(depth: 0)
+            GlowingSphereView(position: b, scale: 1.5)
+                .frame(depth: 0)
         }
     }
     
@@ -143,6 +157,40 @@ struct MoveConstellationView: View {
             let rotatedV = q.act(v)
             return center + rotatedV
         }
+    }
+    
+    func findPointBDoubleAngle3D(a: SIMD3<Float>, c: SIMD3<Float>) -> SIMD3<Float> {
+        let angleAC = angleBetween(a, c)
+        let axis = simd_cross(a, c)
+        
+        // ベクトルaがcと平行な場合（外積ゼロ）には回転軸が定義できないのでそのまま返す
+        if simd_length(axis) < 1e-8 {
+            return a  // または `-a` など適宜定義
+        }
+        
+        let rotated = rotate(a, around: axis, by: 2 * angleAC)
+        
+        // aと同じ長さにスケーリング
+        let b = normalize(rotated) * simd_length(a)
+        
+        return b
+    }
+    
+    func angleBetween(_ v1: SIMD3<Float>, _ v2: SIMD3<Float>) -> Float {
+        let dot = simd_dot(simd_normalize(v1), simd_normalize(v2))
+        return acos(max(-1.0, min(1.0, dot)))  // 数値誤差の対処
+    }
+    
+    // 回転：axis を軸に、vector を angle ラジアン回転
+    func rotate(_ vector: SIMD3<Float>, around axis: SIMD3<Float>, by angle: Float) -> SIMD3<Float> {
+        let u = simd_normalize(axis)
+        let cosA = cos(angle)
+        let sinA = sin(angle)
+        
+        // Rodrigues' rotation formula
+        return vector * cosA +
+        simd_cross(u, vector) * sinA +
+        u * simd_dot(u, vector) * (1 - cosA)
     }
 }
 
