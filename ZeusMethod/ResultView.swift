@@ -6,24 +6,40 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ResultView: View {
-    var score: Int
-    var zeusMessage: String
-    
+    @Environment(AppModel.self) var appModel
+
     private let zeusVoice: ZeusVoice = .init()
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("あなたのスコアは...")
-            Text("\(score)")
-                .font(.system(size: 60, weight: .bold))
-            Text("ゼウスからの一言")
-            Text(zeusMessage)
-                .font(.system(size: 30))
+            Text("評価: \(appModel.gameResult.rawValue)").fontKaiseiDecol(size: 60)
+                .padding(.bottom, 80)
+            Text(appModel.zeusMessage).fontKaiseiDecol(size: 60)
+            Text("ゼウス師範より").fontKaiseiDecol(size: 24)
+                .padding(.leading, 300)
+            HStack(spacing: 20) {
+                Button("もう1回やる") {
+                    Task {
+                        appModel.gameState = .select
+                    }
+                }
+                Button("コースを選ぶ") {
+                    Task {
+                        appModel.gameState = .select
+                    }
+                }
+            }.padding(.top, 40)
         }
         .onAppear() {
-            zeusVoice.speech(text: zeusMessage)
+            zeusVoice.speech(text: appModel.zeusMessage)
         }
     }
+}
+
+#Preview(windowStyle: .automatic) {
+    ResultView()
+        .environment(AppModel())
 }

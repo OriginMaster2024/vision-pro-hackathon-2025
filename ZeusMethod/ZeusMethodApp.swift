@@ -14,12 +14,18 @@ struct ZeusMethodApp: App {
     @State private var avPlayerViewModel = AVPlayerViewModel()
     
     var body: some Scene {
-        WindowGroup {
-            if avPlayerViewModel.isPlaying {
-                AVPlayerView(viewModel: avPlayerViewModel)
-            } else {
-                ContentView()
-                    .environment(appModel)
+        WindowGroup() {
+            if appModel.immersiveSpaceState == .closed {
+                WelcomeView().environment(appModel)
+            } else if appModel.immersiveSpaceState == .open {
+                switch (appModel.gameState) {
+                case .select:
+                    SelectView().environment(appModel)
+                case .finished:
+                    ResultView().environment(appModel)
+                default:
+                    EmptyView()
+                }
             }
         }
         

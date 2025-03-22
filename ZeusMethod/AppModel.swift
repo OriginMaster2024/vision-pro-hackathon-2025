@@ -39,11 +39,11 @@ class AppModel {
     var explosionAudio: AudioFileResource?
     
     enum GameState {
-        case notStarted
+        case select
         case inProgress
         case finished
     }
-    var gameState = GameState.notStarted
+    var gameState = GameState.select
     
     var correctStarPositions: [Position] = []
     var guideNodes: [Entity] = []
@@ -76,6 +76,17 @@ class AppModel {
             return LineSegment(head: head.simd3, tail: tail.simd3)
         }
     }
+    
+    enum GameResult: String {
+        case huka = "不可"
+        case ka = "可"
+        case ryou = "良"
+        case yuu = "優"
+    }
+    
+    var gameResult: GameResult = .huka
+    var zeusMessage: String = "hoge"
+    
 }
 
 extension AppModel {
