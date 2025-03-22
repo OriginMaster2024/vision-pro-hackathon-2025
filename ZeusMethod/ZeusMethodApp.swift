@@ -16,7 +16,7 @@ struct ZeusMethodApp: App {
     var body: some Scene {
         WindowGroup() {
             if appModel.immersiveSpaceState == .closed {
-                ContentView().environment(appModel)
+                WelcomeView().environment(appModel)
             } else if appModel.immersiveSpaceState == .open {
                 switch (appModel.gameState) {
                 case .select:
