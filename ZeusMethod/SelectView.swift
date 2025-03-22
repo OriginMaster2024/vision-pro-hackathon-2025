@@ -35,14 +35,7 @@ struct SelectView: View {
         }
         .toolbar {
             ToolbarItem(placement: .bottomOrnament) {
-                Button(action: {
-                    // Close Immersive Space
-                }, label: {
-                    HStack {
-                        Image(systemName: "door.right.hand.open")
-                        Text("道場を出る")
-                    }
-                })
+                DismissImmersiveSpaceButton()
             }
         }
     }
@@ -63,6 +56,26 @@ struct SelectView: View {
             .buttonBorderShape(.roundedRectangle(radius: 40))
         }
         
+    }
+    
+    private struct DismissImmersiveSpaceButton: View {
+        @Environment(AppModel.self) private var appModel
+        @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+        
+        var body: some View {
+            Button {
+                Task {
+                    appModel.immersiveSpaceState = .inTransition
+                    await dismissImmersiveSpace()
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "door.right.hand.open")
+                    Text("道場を出る")
+                }
+            }
+            .animation(.none, value: 0)
+        }
     }
     
     private func selectCourse() async {
