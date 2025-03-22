@@ -13,8 +13,6 @@ import AVFoundation
 struct ContentView: View {
     @Environment(AppModel.self) var appModel
     
-    private let zeusVoice: ZeusVoice = .init()
-
     var body: some View {
         VStack {
             ToggleImmersiveSpaceButton()
@@ -30,7 +28,6 @@ struct ContentView: View {
             case .inProgress:
                 Button("End!") {
                     appModel.gameState = .finished
-                    zeusVoice.speech(text: "神を舐めるな。")
                 }
             case .finished:
                 Button("Restart!") {
@@ -45,7 +42,7 @@ struct ContentView: View {
                         correctStarPositions: appModel.correctStarPositions,
                         userStarPositions: appModel.starPositions
                     ),
-                    zeusMessage: "まぁまぁだな"
+                    zeusMessage: "神を舐めるな。"
                 )
             }
             Spacer()
