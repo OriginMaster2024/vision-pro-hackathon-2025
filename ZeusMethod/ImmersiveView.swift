@@ -218,6 +218,8 @@ struct ImmersiveView: View {
         
         if appModel.spheres.count <= appModel.starIndexToShoot {
             appModel.gameState = .finished
+            appModel.gameResult = ResultGenerater.getResult(correctStarPositions: appModel.correctStarPositions, userStarPositions: appModel.starPositions)
+            appModel.zeusMessage = ResultGenerater.getZeusMessage(result: appModel.gameResult)
         }
     }
 }
