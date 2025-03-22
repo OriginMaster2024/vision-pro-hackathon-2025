@@ -66,9 +66,9 @@ struct MoveConstellationView: View {
     
     
     let tempCenter: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
-    let a: SIMD3<Float> = .init(x: 5, y: 10, z: -40)
+    let a: SIMD3<Float> = .init(x: 0, y: 5, z: -40)
     var b: SIMD3<Float> {
-        findPointBDoubleAngle3D(center: tempCenter, c: a)
+        findPointBDoubleAngle3D(center: tempCenter, original: a)
     }
     
     var body: some View {
@@ -159,9 +159,9 @@ struct MoveConstellationView: View {
         }
     }
     
-    func findPointBDoubleAngle3D(center: SIMD3<Float>, c: SIMD3<Float>) -> SIMD3<Float> {
-        let angleAC = angleBetween(center, c)
-        let axis = simd_cross(center, c)
+    func findPointBDoubleAngle3D(center: SIMD3<Float>, original: SIMD3<Float>) -> SIMD3<Float> {
+        let angleAC = angleBetween(center, original)
+        let axis = simd_cross(center, original)
         
         // ベクトルaがcと平行な場合（外積ゼロ）には回転軸が定義できないのでそのまま返す
         if simd_length(axis) < 1e-8 {
