@@ -139,6 +139,11 @@ struct ImmersiveView: View {
                             if self.starIndexToShoot < 5 {
                                 Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: destination)
                                 self.starIndexToShoot += 1
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    print("0.5秒後の処理")
+                                    // ここでonShootを呼び出す
+                                }
                             }
                         }
                     }
