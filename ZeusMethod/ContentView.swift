@@ -36,7 +36,13 @@ struct ContentView: View {
                     }
                 }
                 Spacer()
-                ResultView(score: ScoreCalculator.calculateScore(), zeusMessage: "まぁまぁだな")
+                ResultView(
+                    score: ScoreCalculator.calculateScore(
+                        correctStarPositions: appModel.correctStarPositions,
+                        userStarPositions: appModel.starPositions
+                    ),
+                    zeusMessage: "まぁまぁだな"
+                )
             }
         }
     }
