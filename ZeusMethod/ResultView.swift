@@ -11,15 +11,20 @@ struct ResultView: View {
     var score: Int
     var zeusMessage: String
     
+    private let zeusVoice: ZeusVoice = .init()
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("あなたのスコアは...")
             Text("\(score)")
                 .font(.system(size: 60, weight: .bold))
-            Spacer()
             Text("ゼウスからの一言")
             Text(zeusMessage)
                 .font(.system(size: 30))
+        }
+        .padding(40)
+        .onAppear() {
+            zeusVoice.speech(text: zeusMessage)
         }
     }
 }
