@@ -22,13 +22,7 @@ struct ZeusMethodApp: App {
                 case .select:
                     SelectView().environment(appModel)
                 case .finished:
-                    ResultView(
-                        score: ScoreCalculator.calculateScore(
-                            correctStarPositions: appModel.correctStarPositions,
-                            userStarPositions: appModel.starPositions
-                        ),
-                        zeusMessage: "神を舐めるな。"
-                    ).environment(appModel)
+                    ResultView().environment(appModel)
                 default:
                     EmptyView()
                 }
