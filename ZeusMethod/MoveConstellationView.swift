@@ -42,7 +42,7 @@ struct MoveConstellationView: View {
             .reduce(SIMD3<Float>(repeating: 0), +)
         return sum / Float(positions.count)
     }
-    let targetCenter: SIMD3<Float> = .init(x: 0, y: 5, z: -10)
+    let targetCenter: SIMD3<Float> = .init(x: 0, y: 25, z: -50)
     
     var quaternion: simd_quatf {
         rotationQuaternion(from: center, to: targetCenter)
@@ -60,10 +60,10 @@ struct MoveConstellationView: View {
                 GlowingSphereView(position: position.simd3, scale: 1)
                     .frame(depth: 0)
             }
-            SphereView(position: center, radius: 0.1)
+            SphereView(position: center, radius: 0.5)
                 .frame(depth: 0)
             
-            SphereView(position: targetCenter, radius: 0.1)
+            SphereView(position: targetCenter, radius: 0.5)
                 .frame(depth: 0)
             
             ForEach(roatedPositions) { position in
