@@ -12,7 +12,7 @@ struct WelcomeView: View {
         ZStack {
             Image(.welcomeBackground)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
             VStack(spacing: 88) {
                 VStack(spacing: 32) {
                     Text("天空道場")
@@ -50,4 +50,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environment(AppModel())
 }
