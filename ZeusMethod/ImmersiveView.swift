@@ -44,6 +44,8 @@ struct ImmersiveView: View {
         }
         
         handTrackerView
+        
+        constellationView
     }
 
     var handTrackerView: some View {
@@ -153,6 +155,37 @@ struct ImmersiveView: View {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    var constellationView: some View {
+        ZStack {
+            ForEach(appModel.correctStarPositions) { position in
+                SphereView(position: position.simd3)
+                    .frame(depth: 0)
+            }
+            ForEach(appModel.correctLines) { line in
+                LineSegmentView(head: line.head, tail: line.tail)
+                    .frame(depth: 0)
+            }
+            
+            ForEach(appModel.starPositions) { position in
+                GlowingSphereView(position: position.simd3)
+                    .frame(depth: 0)
+            }
+            ForEach(appModel.lines) { line in
+                LineSegmentView(head: line.head, tail: line.tail)
+                    .frame(depth: 0)
+            }
+            
+            ZStack {
+                Button(action: {
+                    appModel.dispatch(.onShoot)
+                }, label: {
+                    Text("Shoot")
+                        .fontWeight(.semibold)
+                })
             }
         }
     }
