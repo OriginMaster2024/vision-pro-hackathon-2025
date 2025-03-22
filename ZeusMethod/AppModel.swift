@@ -45,23 +45,13 @@ class AppModel {
     }
     var gameState = GameState.select
     
-    /// 正しい星の位置情報のリスト
-    let correctStarPositions: [Position] = [
-        .init(x: -2, y: 8, z: -10),
-        .init(x: 1, y: 8, z: -10),
-        .init(x: 0, y: 6, z: -10),
-        .init(x: 2, y: 4, z: -10),
-        .init(x: 1, y: 2, z: -10),
-    ]
+    var correctStarPositions: [Position] = []
+    var guideNodes: [Entity] = []
+    
     /// 星のノード間に引く線分のリスト
     /// indexで指定する
-    let indexedLines: [IndexedLine] = [
-        .init(headIndex: 0, tailIndex: 1),
-        .init(headIndex: 1, tailIndex: 2),
-        .init(headIndex: 2, tailIndex: 3),
-        .init(headIndex: 3, tailIndex: 4),
-    ]
-    
+    var indexedLines: [IndexedLine] = []
+        
     /// 正しい星座の線分のリスト
     var correctLines: [LineSegment] {
         indexedLines.compactMap { indexedLine in
