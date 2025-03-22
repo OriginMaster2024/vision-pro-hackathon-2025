@@ -26,9 +26,10 @@ class AppModel {
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
     var spheres: [Entity] = []
-    
+    var starIndexToShoot: Int = 0
+
     // パンチの状態
-    var punchStatus = PunchStatus.active // 誤作動を防ぐため、最初はアクティブにしておく
+    var punchStatus = PunchStatus.waiting
     
     // 加速度計算のための直前2回のposition
     var prevPositions: [SIMD3<Float>] = []
