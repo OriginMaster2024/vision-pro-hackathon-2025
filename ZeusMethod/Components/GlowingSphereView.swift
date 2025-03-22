@@ -17,7 +17,7 @@ struct GlowingSphereView: View {
         RealityView { content in
             if let entity = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
                 entity.position = position
-                entity.scale = .init(repeating: 0.5)
+                entity.scale = .init(repeating: 0.1)
                 content.add(entity)
             }
         }

@@ -57,9 +57,11 @@ struct ContentView: View {
         var stars: [Entity] = []
 
         for i in 0..<count {
-            if let star = try? await Entity(named: "Sphere", in: realityKitContentBundle) {
-                stars.append(star)
-                print("Generated \(i+1)th star.")
+            if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
+                    star.position = [0, -10, 0]
+                    star.scale = .init(repeating: 0.1)
+                    stars.append(star)
+                    print("Generated \(i+1)th star.")
             }
         }
         
