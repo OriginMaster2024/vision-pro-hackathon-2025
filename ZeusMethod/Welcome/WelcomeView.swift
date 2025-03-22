@@ -31,6 +31,7 @@ struct WelcomeView: View {
                 })
             }
         }
+        .clipShape(RoundedRectangle(cornerRadius: 32))
     }
 }
 
