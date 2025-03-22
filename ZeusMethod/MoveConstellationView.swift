@@ -11,6 +11,7 @@ struct MoveConstellationView: View {
     let positions: [Position] = [
         .init(x: 40, y: 10, z: 0),
         .init(x: 40, y: 0, z: 0),
+        .init(x: 40, y: 5, z: 5),
     ]
     
     /*
