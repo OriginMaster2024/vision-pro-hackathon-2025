@@ -50,7 +50,7 @@ def dataframes():
 
 def main():
     df, dfl = dataframes()
-    dfl = dfl[dfl["Abbr"] == "Ori"]
+    dfl = dfl[dfl["Abbr"] == "Cyg"]
 
     ids = list(set(list(dfl["ID1"].unique()) + list(dfl["ID2"].unique())))
     df = df[df["ID"].isin(ids)]
