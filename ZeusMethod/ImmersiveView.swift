@@ -25,6 +25,11 @@ struct ImmersiveView: View {
     
     var body: some View {
         ZStack {
+//            Button("Shoot") {
+//                appModel.spheres.forEach { sphere in
+//                    shootStar(star: sphere, destination: [0, 2, -10])
+//                }
+//            }
             RealityView { content in
                 // Add the initial RealityKit content
                 if let immersiveContentEntity = try? await Entity(named: "SkyDome", in: realityKitContentBundle) {
@@ -36,16 +41,6 @@ struct ImmersiveView: View {
                 RealityView { content in
                     content.add(sphere)
                 }.frame(depth: 0)
-//                .gesture(TapGesture().onEnded {
-//                    Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
-//                    appModel.starIndexToShoot += 1
-//
-//                    appModel.dispatch(.onShoot(destination: SIMD3(0, 2, -10)))
-//
-//                    if appModel.spheres.count <= appModel.starIndexToShoot {
-//                        appModel.gameState = .finished
-//                    }
-//                })
             }
             
             handTrackerView.frame(depth: 0)
@@ -154,23 +149,12 @@ struct ImmersiveView: View {
                     // ボールを飛ばす
                     if a < -0.003 {
                         if appModel.lastPunchedAt == nil || Date().timeIntervalSince(appModel.lastPunchedAt!) > 1.0 {
-                            print("Punched! from: \(wristPosition), to: \(destination)")
-                            appModel.lastPunchedAt = Date()
+                            guard let currentSphere else { continue }
                             
-                            if currentSphere != nil {
-                                Shooter.shoot(entity: currentSphere!, to: destination)
-                                appModel.starIndexToShoot += 1
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    print("0.5秒後の処理")
-                                    // ここでonShootを呼び出す
-                                    appModel.dispatch(.onShoot(destination: destination))
-                                }
-                                
-                                if appModel.spheres.count <= appModel.starIndexToShoot {
-                                    appModel.gameState = .finished
-                                }
-                            }
+                            appModel.lastPunchedAt = Date()
+                            shootStar(star: currentSphere, destination: destination)
+                            
+                            print("Punched! from: \(wristPosition), to: \(destination)")
                         }
                     }
                 }
@@ -197,6 +181,21 @@ struct ImmersiveView: View {
                 LineSegmentView(head: line.head, tail: line.tail)
                     .frame(depth: 0)
             }
+        }
+    }
+    
+    private func shootStar(star: Entity, destination: SIMD3<Float>) {
+        Shooter.shoot(entity: star, to: destination)
+        appModel.starIndexToShoot += 1
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            print("0.5秒後の処理")
+            // ここでonShootを呼び出す
+            appModel.dispatch(.onShoot(destination: destination))
+        }
+        
+        if appModel.spheres.count <= appModel.starIndexToShoot {
+            appModel.gameState = .finished
         }
     }
 }
