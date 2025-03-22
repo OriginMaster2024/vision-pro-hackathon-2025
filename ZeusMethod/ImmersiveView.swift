@@ -34,7 +34,6 @@ struct ImmersiveView: View {
             
             ForEach(appModel.spheres, id: \.self) { sphere in
                 RealityView { content in
-                    sphere.position = [0, 1, -1]
                     content.add(sphere)
                 }.frame(depth: 0)
                 //            .gesture(TapGesture().onEnded {
