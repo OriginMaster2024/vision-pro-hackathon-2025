@@ -68,7 +68,11 @@ struct MoveConstellationView: View {
     let tempCenter: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
     let a: SIMD3<Float> = .init(x: 0, y: 5, z: -40)
     var b: SIMD3<Float> {
-        findPointBDoubleAngle3D(center: tempCenter, original: a)
+        findPointBDoubleAngle3D(
+            center: tempCenter,
+            original: a,
+            angleScale: 3
+        )
     }
     
     var body: some View {
@@ -159,7 +163,11 @@ struct MoveConstellationView: View {
         }
     }
     
-    func findPointBDoubleAngle3D(center: SIMD3<Float>, original: SIMD3<Float>) -> SIMD3<Float> {
+    func findPointBDoubleAngle3D(
+        center: SIMD3<Float>,
+        original: SIMD3<Float>,
+        angleScale: Float
+    ) -> SIMD3<Float> {
         let angleAC = angleBetween(center, original)
         let axis = simd_cross(center, original)
         
@@ -168,7 +176,7 @@ struct MoveConstellationView: View {
             return center  // または `-a` など適宜定義
         }
         
-        let rotated = rotate(center, around: axis, by: 2 * angleAC)
+        let rotated = rotate(center, around: axis, by: angleScale * angleAC)
         
         // aと同じ長さにスケーリング
         let b = normalize(rotated) * simd_length(center)
