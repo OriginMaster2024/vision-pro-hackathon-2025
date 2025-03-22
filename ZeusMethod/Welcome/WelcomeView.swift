@@ -21,17 +21,30 @@ struct WelcomeView: View {
                         .fontKaiseiDecol(size: 40)
                 }
                 
-                Button(action: {
-                    print("Enter Immersive Space")
-                }, label: {
-                    Text("門を叩く")
-                        .fontKaiseiDecol(size: 32)
-                        .frame(width: 320, height: 64)
-                        .clipShape(RoundedRectangle(cornerRadius: 32))
-                })
+                OpenGateButton()
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 32))
+    }
+    
+    private struct OpenGateButton: View {
+        @Environment(AppModel.self) private var appModel
+        @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+
+        var body: some View {
+            Button {
+                Task {
+                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                    appModel.immersiveSpaceState = .open
+                }
+            } label: {
+                Text("門を叩く")
+                    .fontKaiseiDecol(size: 32)
+                    .frame(width: 320, height: 64)
+                    .clipShape(RoundedRectangle(cornerRadius: 32))
+            }
+            .animation(.none, value: 0)
+        }
     }
 }
 
