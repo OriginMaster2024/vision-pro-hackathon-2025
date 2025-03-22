@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MoveConstellationView: View {
     let positions: [Position] = [
-        .init(x: 2, y: 2, z: 0),
-        .init(x: 2, y: 1, z: 0),
+        .init(x: 40, y: 10, z: 0),
+        .init(x: 40, y: 0, z: 0),
     ]
     
     /*
@@ -57,7 +57,7 @@ struct MoveConstellationView: View {
     var body: some View {
         ZStack {
             ForEach(positions) { position in
-                GlowingSphereView(position: position.simd3)
+                GlowingSphereView(position: position.simd3, scale: 1)
                     .frame(depth: 0)
             }
             SphereView(position: center, radius: 0.1)
@@ -67,7 +67,7 @@ struct MoveConstellationView: View {
                 .frame(depth: 0)
             
             ForEach(roatedPositions) { position in
-                GlowingSphereView(position: position.simd3)
+                GlowingSphereView(position: position.simd3, scale: 1)
                     .frame(depth: 0)
             }
         }
