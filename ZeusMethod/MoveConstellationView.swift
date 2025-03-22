@@ -55,16 +55,19 @@ struct MoveConstellationView: View {
             .map { Position(simd3: $0) }
     }
     
-//    var roatedAndscaledPositions: [Position] {
-//        scaleAnglesAroundCenter(
-//            positions: roatedPositions.map { $0.simd3 },
-//            center: targetCenter,
-//            angleScale: 6
-//        )
-//        .map { Position(simd3: $0) }
-//    }
+    var roatedAndscaledPositions: [Position] {
+        roatedPositions
+            .map { $0.simd3 }
+            .map { scaleAnglesAroundCenter(
+                center: targetCenter,
+                original: $0,
+                angleScale: 2
+            )}
+            .map { Position(simd3: $0) }
+    }
     
     
+    /*
     let tempCenter: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
     let a: SIMD3<Float> = .init(x: 0, y: 5, z: -40)
     var b: SIMD3<Float> {
@@ -74,6 +77,7 @@ struct MoveConstellationView: View {
             angleScale: 3
         )
     }
+    */
     
     var body: some View {
         ZStack {
@@ -87,22 +91,24 @@ struct MoveConstellationView: View {
             SphereView(position: targetCenter, radius: 0.5)
                 .frame(depth: 0)
             
-//            ForEach(roatedPositions) { position in
-//                GlowingSphereView(position: position.simd3, scale: 1)
-//                    .frame(depth: 0)
-//            }
-//            
-//            ForEach(roatedAndscaledPositions) { position in
-//                GlowingSphereView(position: position.simd3, scale: 3)
-//                    .frame(depth: 0)
-//            }
+            ForEach(roatedPositions) { position in
+                GlowingSphereView(position: position.simd3, scale: 1)
+                    .frame(depth: 0)
+            }
             
+            ForEach(roatedAndscaledPositions) { position in
+                GlowingSphereView(position: position.simd3, scale: 3)
+                    .frame(depth: 0)
+            }
+            
+            /*
             SphereView(position: tempCenter, radius: 0.5)
                 .frame(depth: 0)
             GlowingSphereView(position: a, scale: 1)
                 .frame(depth: 0)
             GlowingSphereView(position: b, scale: 2)
                 .frame(depth: 0)
+             */
         }
     }
     
