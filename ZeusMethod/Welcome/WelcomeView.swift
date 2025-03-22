@@ -16,16 +16,16 @@ struct WelcomeView: View {
             VStack(spacing: 88) {
                 VStack(spacing: 32) {
                     Text("天空道場")
-                        .font(.system(size: 80))
+                        .fontKaiseiDecol(size: 80)
                     Text("拳で覚える星座ドリル")
-                        .font(.system(size: 40))
+                        .fontKaiseiDecol(size: 40)
                 }
                 
                 Button(action: {
                     print("Enter Immersive Space")
                 }, label: {
                     Text("門を叩く")
-                        .font(.system(size: 32))
+                        .fontKaiseiDecol(size: 32)
                         .frame(width: 320, height: 64)
                         .clipShape(RoundedRectangle(cornerRadius: 32))
                 })
