@@ -8,9 +8,12 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import AVFoundation
 
 struct ContentView: View {
     @Environment(AppModel.self) var appModel
+    
+    private let zeusVoice: ZeusVoice = .init()
 
     var body: some View {
         VStack {
@@ -27,6 +30,7 @@ struct ContentView: View {
             case .inProgress:
                 Button("End!") {
                     appModel.gameState = .finished
+                    zeusVoice.speech(text: "神を舐めるな。")
                 }
             case .finished:
                 Button("Restart!") {
