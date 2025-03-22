@@ -44,6 +44,8 @@ struct ImmersiveView: View {
         }
         
         handTrackerView
+        
+        constellationView
     }
 
     var handTrackerView: some View {
@@ -143,6 +145,7 @@ struct ImmersiveView: View {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     print("0.5秒後の処理")
                                     // ここでonShootを呼び出す
+                                    appModel.dispatch(.onShoot)
                                 }
                             }
                         }
@@ -153,6 +156,28 @@ struct ImmersiveView: View {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    var constellationView: some View {
+        ZStack {
+            ForEach(appModel.correctStarPositions) { position in
+                SphereView(position: position.simd3)
+                    .frame(depth: 0)
+            }
+            ForEach(appModel.correctLines) { line in
+                LineSegmentView(head: line.head, tail: line.tail)
+                    .frame(depth: 0)
+            }
+            
+            ForEach(appModel.starPositions) { position in
+                GlowingSphereView(position: position.simd3)
+                    .frame(depth: 0)
+            }
+            ForEach(appModel.lines) { line in
+                LineSegmentView(head: line.head, tail: line.tail)
+                    .frame(depth: 0)
             }
         }
     }
