@@ -15,59 +15,8 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Spacer()
             ToggleImmersiveSpaceButton()
-            Spacer()
-            switch(appModel.gameState) {
-            case .notStarted:
-                Button("Start!") {
-                    Task {
-                        await generateStars(count: 5);
-                        appModel.gameState = .inProgress
-                    }
-                }
-            case .inProgress:
-                Button("Restart!") {
-                    Task {
-                        await generateStars(count: 5);
-                        appModel.gameState = .inProgress
-                    }
-                }
-            case .finished:
-                Button("Restart!") {
-                    Task {
-                        await generateStars(count: 5);
-                        appModel.gameState = .inProgress
-                    }
-                }
-                Spacer()
-                ResultView(
-                    score: ScoreCalculator.calculateScore(
-                        correctStarPositions: appModel.correctStarPositions,
-                        userStarPositions: appModel.starPositions
-                    ),
-                    zeusMessage: "神を舐めるな。"
-                )
-            }
-            Spacer()
         }
-    }
-    
-    private func generateStars(count: Int) async {
-        var stars: [Entity] = []
-
-        for i in 0..<count {
-            if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
-                    star.position = [0, -10, 0]
-                    star.scale = .init(repeating: 0.1)
-                    stars.append(star)
-                    print("Generated \(i+1)th star.")
-            }
-        }
-        
-        appModel.spheres = stars
-        appModel.starIndexToShoot = 0
-        appModel.starPositions = []
     }
 }
 

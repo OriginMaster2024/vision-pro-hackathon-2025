@@ -14,12 +14,24 @@ struct ZeusMethodApp: App {
     @State private var avPlayerViewModel = AVPlayerViewModel()
     
     var body: some Scene {
-        WindowGroup {
-            if avPlayerViewModel.isPlaying {
-                AVPlayerView(viewModel: avPlayerViewModel)
-            } else {
-                ContentView()
-                    .environment(appModel)
+        WindowGroup() {
+            if appModel.immersiveSpaceState == .closed {
+                ContentView().environment(appModel)
+            } else if appModel.immersiveSpaceState == .open {
+                switch (appModel.gameState) {
+                case .select:
+                    SelectView().environment(appModel)
+                case .finished:
+                    ResultView(
+                        score: ScoreCalculator.calculateScore(
+                            correctStarPositions: appModel.correctStarPositions,
+                            userStarPositions: appModel.starPositions
+                        ),
+                        zeusMessage: "神を舐めるな。"
+                    ).environment(appModel)
+                default:
+                    EmptyView()
+                }
             }
         }
         

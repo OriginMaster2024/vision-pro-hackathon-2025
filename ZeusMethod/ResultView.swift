@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ResultView: View {
+    @Environment(AppModel.self) var appModel
+    
     var score: Int
     var zeusMessage: String
     
@@ -21,6 +24,12 @@ struct ResultView: View {
             Text("ゼウスからの一言")
             Text(zeusMessage)
                 .font(.system(size: 30))
+            Spacer()
+            Button("最初から") {
+                Task {
+                    appModel.gameState = .select
+                }
+            }
         }
         .onAppear() {
             zeusVoice.speech(text: zeusMessage)
