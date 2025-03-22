@@ -16,9 +16,26 @@ struct ContentView: View {
         VStack {
             ToggleImmersiveSpaceButton()
             Spacer()
-            Button("Start!") {
-                Task {
-                    await generateStars(count: 5);
+            switch(appModel.gameState) {
+            case .notStarted:
+                Button("Start!") {
+                    Task {
+                        await generateStars(count: 5);
+                        appModel.gameState = .inProgress
+                    }
+                }
+            case .inProgress:
+                Button("End!") {
+                    appModel.gameState = .finished
+                }
+            case .finished:
+                ResultView(score: 46, zeusMessage: "まぁまぁだな")
+                Spacer()
+                Button("Restart!") {
+                    Task {
+                        await generateStars(count: 5);
+                        appModel.gameState = .inProgress
+                    }
                 }
             }
         }
