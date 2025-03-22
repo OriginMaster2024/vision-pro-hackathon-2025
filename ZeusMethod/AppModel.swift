@@ -33,6 +33,12 @@ class AppModel {
     // 加速度計算のための直前2回のposition
     var prevPositions: [SIMD3<Float>] = []
     
+    enum GameState {
+        case notStarted
+        case inProgress
+        case finished
+    }
+    var gameState = GameState.notStarted
     
     /// 正しい星の位置情報のリスト
     let correctStarPositions: [Position] = [
