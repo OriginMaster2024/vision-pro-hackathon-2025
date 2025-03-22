@@ -38,14 +38,16 @@ struct ImmersiveView: View {
                 }
             }.frame(depth: 0)
             
-            RealityView { content in
-                if let linesEntity = try? await Entity(named: "ConstellationLines", in: realityKitContentBundle) {
-                    content.add(linesEntity)
-                }
-                if let starsEntity = try? await Entity(named: "ConstellationStars", in: realityKitContentBundle) {
-                    content.add(starsEntity)
-                }
-            }.frame(depth: 0)
+            if appModel.showsBackgroundConstellations {
+                RealityView { content in
+                    if let linesEntity = try? await Entity(named: "ConstellationLines", in: realityKitContentBundle) {
+                        content.add(linesEntity)
+                    }
+                    if let starsEntity = try? await Entity(named: "ConstellationStars", in: realityKitContentBundle) {
+                        content.add(starsEntity)
+                    }
+                }.frame(depth: 0)
+            }
             
             ForEach(appModel.spheres, id: \.self) { sphere in
                 RealityView { content in
