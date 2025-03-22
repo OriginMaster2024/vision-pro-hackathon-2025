@@ -12,8 +12,14 @@ struct ResultView: View {
     var zeusMessage: String
     
     var body: some View {
-        Text("あなたのスコアは...\(score)！")
-        Text("ゼウスからの一言")
-        Text(zeusMessage)
+        VStack {
+            Text("あなたのスコアは...")
+            Text("\(score)")
+                .font(.system(size: 60, weight: .bold))
+            Spacer()
+            Text("ゼウスからの一言")
+            Text(zeusMessage)
+                .font(.system(size: 30))
+        }
     }
 }
