@@ -86,7 +86,14 @@ class AppModel {
     
     var gameResult: GameResult = .huka
     var zeusMessage: String = "hoge"
-    
+ 
+    var showsBackgroundConstellations: Bool {
+        switch gameState {
+        case .select: true
+        case .inProgress: false
+        case .finished: true
+        }
+    }
 }
 
 extension AppModel {
