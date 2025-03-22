@@ -33,7 +33,7 @@ struct ImmersiveView: View {
 //            }
             RealityView { content in
                 // Add the initial RealityKit content
-                if let immersiveContentEntity = try? await Entity(named: "SkyDome", in: realityKitContentBundle) {
+                if let immersiveContentEntity = try? await Entity(named: "CelestialSphere", in: realityKitContentBundle) {
                     content.add(immersiveContentEntity)
                 }
             }.frame(depth: 0)
