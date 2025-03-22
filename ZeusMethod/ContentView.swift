@@ -29,14 +29,14 @@ struct ContentView: View {
                     appModel.gameState = .finished
                 }
             case .finished:
-                ResultView(score: 46, zeusMessage: "まぁまぁだな")
-                Spacer()
                 Button("Restart!") {
                     Task {
                         await generateStars(count: 5);
                         appModel.gameState = .inProgress
                     }
                 }
+                Spacer()
+                ResultView(score: ScoreCalculator.calculateScore(), zeusMessage: "まぁまぁだな")
             }
         }
     }
