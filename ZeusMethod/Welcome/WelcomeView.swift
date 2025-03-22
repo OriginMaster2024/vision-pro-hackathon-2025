@@ -18,6 +18,13 @@ struct WelcomeView: View {
                     .font(.system(size: 80))
                 Text("拳で覚える星座ドリル")
                     .font(.system(size: 40))
+                
+                Button(action: {
+                    print("Enter Immersive Space")
+                }, label: {
+                    Text("門を叩く")
+                        .font(.system(size: 32))
+                })
             }
         }
     }
