@@ -13,7 +13,7 @@ struct WelcomeView: View {
             Image(.welcomeBackground)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-            VStack {
+            VStack(spacing: 32) {
                 Text("天空道場")
                     .font(.system(size: 80))
                 Text("拳で覚える星座ドリル")
