@@ -15,6 +15,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ToggleImmersiveSpaceButton()
+            Spacer()
             Button("Start!") {
                 Task {
                     await generateStars(count: 5);
@@ -24,13 +25,16 @@ struct ContentView: View {
     }
     
     private func generateStars(count: Int) async {
+        var stars: [Entity] = []
+
         for i in 0..<count {
-            if let sphere = try? await Entity(named: "Sphere", in: realityKitContentBundle) {
-                sphere.position = [0, 1, -1]
-                appModel.spheres.append(sphere)
+            if let star = try? await Entity(named: "Sphere", in: realityKitContentBundle) {
+                stars.append(star)
                 print("Generated \(i+1)th star.")
             }
         }
+        
+        appModel.spheres = stars
     }
 }
 

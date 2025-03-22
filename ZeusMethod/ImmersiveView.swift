@@ -28,20 +28,20 @@ struct ImmersiveView: View {
     var body: some View {
         RealityView { content in
             // Add the initial RealityKit content
-            if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
+            if let immersiveContentEntity = try? await Entity(named: "SkyDome", in: realityKitContentBundle) {
                 content.add(immersiveContentEntity)
             }
         }
-
-        RealityView { content in
-            appModel.spheres.forEach {
-                content.add($0)
+        
+        ForEach(appModel.spheres, id: \.self) { sphere in
+            RealityView { content in
+                sphere.position = [0, 1, -1]
+                content.add(sphere)
             }
+            .gesture(TapGesture().onEnded {
+                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
+            })
         }
-//        .gesture(TapGesture().onEnded {
-//            Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: SIMD3(0, 2, -10))
-//            self.starIndexToShoot += 1
-//        })
         
         handTrackerView
     }
@@ -68,7 +68,7 @@ struct ImmersiveView: View {
             sphere.name = "trackerSphere"
             handTrackerRootEntity.addChild(sphere)
         }
-        .task { try! await session.run([provider]) }
+        .task { try? await session.run([provider]) }
         .task {
             // 手の座標が更新されるたびにトラックボールとポインタを更新
             for await update in provider.anchorUpdates {
