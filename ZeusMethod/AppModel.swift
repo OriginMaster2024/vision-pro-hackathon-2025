@@ -76,3 +76,13 @@ class AppModel {
         }
     }
 }
+
+extension AppModel {
+    func dispatch(_ event: Event) {
+        switch event {
+        case .onShoot:
+            let randomPosition = Position(x: Float.random(in: -2 ..< 3), y: Float.random(in: 2 ..< 8), z: -10)
+            starPositions.append(randomPosition)
+        }
+    }
+}
