@@ -38,9 +38,9 @@ struct ImmersiveView: View {
                 sphere.position = [0, 1, -1]
                 content.add(sphere)
             }
-            .gesture(TapGesture().onEnded {
-                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
-            })
+//            .gesture(TapGesture().onEnded {
+//                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
+//            })
         }
         
         handTrackerView
@@ -129,11 +129,11 @@ struct ImmersiveView: View {
                     let v1 = appModel.prevPositions[0] - appModel.prevPositions[1]
                     let v2 = appModel.prevPositions[1] - appModel.prevPositions[2]
                     
-                    let a = simd_length(v2 - v1)
+                    let a = v2.z - v1.z
                     
                     // ボールを飛ばす
                     if appModel.punchStatus == .waiting {
-                        if a > 0.003 {
+                        if a < -0.003 {
                             print("Punched! from: \(wristPosition), to: \(destination)")
                             appModel.punchStatus = .active
                             if self.starIndexToShoot < 5 {
@@ -143,7 +143,7 @@ struct ImmersiveView: View {
                         }
                     }
                     if appModel.punchStatus == .active {
-                        if a < 0.0001 {
+                        if a > -0.0001 {
                             appModel.punchStatus = .waiting
                         }
                     }
