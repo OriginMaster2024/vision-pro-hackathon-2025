@@ -12,6 +12,11 @@ import RealityKit
 @MainActor
 @Observable
 class AppModel {
+    
+    enum Event {
+        case onShoot
+    }
+    
     let immersiveSpaceID = "ImmersiveSpace"
     enum ImmersiveSpaceState {
         case closed
