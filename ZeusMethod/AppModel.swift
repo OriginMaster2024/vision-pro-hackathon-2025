@@ -34,6 +34,10 @@ class AppModel {
     // 加速度計算のための直前2回のposition
     var prevPositions: [SIMD3<Float>] = []
     
+    // 音響
+    var beamAudio: AudioFileResource?
+    var explosionAudio: AudioFileResource?
+    
     enum GameState {
         case notStarted
         case inProgress

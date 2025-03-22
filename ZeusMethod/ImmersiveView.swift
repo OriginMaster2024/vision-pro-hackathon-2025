@@ -20,6 +20,7 @@ struct ImmersiveView: View {
     private let session = ARKitSession()
     private let provider = HandTrackingProvider()
     private let handTrackerRootEntity = Entity()
+    private let beamSpeaker = Entity()
 
     @Environment(AppModel.self) var appModel
     
@@ -39,6 +40,7 @@ struct ImmersiveView: View {
             
             ForEach(appModel.spheres, id: \.self) { sphere in
                 RealityView { content in
+                    sphere.spatialAudio = SpatialAudioComponent(directivity: .beam(focus: 0.75))
                     content.add(sphere)
                 }.frame(depth: 0)
             }
@@ -46,6 +48,22 @@ struct ImmersiveView: View {
             handTrackerView.frame(depth: 0)
             
             constellationView.frame(depth: 0)
+            
+            RealityView { content in
+                beamSpeaker.position = SIMD3(0, 1, -1)
+                beamSpeaker.spatialAudio = SpatialAudioComponent(directivity: .beam(focus: 0.75))
+                content.add(beamSpeaker)
+            }
+            .task {
+                let configuration = AudioFileResource.Configuration.init()
+                if let audio = try? await AudioFileResource.load(named: "Beam", configuration: configuration) {
+                    appModel.beamAudio = audio
+                }
+                if let audio = try? await AudioFileResource.load(named: "Explosion", configuration: configuration) {
+                    appModel.explosionAudio = audio
+                }
+            }
+            .frame(depth: 0)
         }
     }
 
@@ -187,6 +205,10 @@ struct ImmersiveView: View {
     private func shootStar(star: Entity, destination: SIMD3<Float>) {
         Shooter.shoot(entity: star, to: destination)
         appModel.starIndexToShoot += 1
+        
+        if let audio = appModel.beamAudio {
+            beamSpeaker.playAudio(audio)
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             print("0.5秒後の処理")
