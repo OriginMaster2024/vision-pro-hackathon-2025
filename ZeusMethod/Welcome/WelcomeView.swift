@@ -26,7 +26,6 @@ struct WelcomeView: View {
                 }, label: {
                     Text("門を叩く")
                         .font(.system(size: 32))
-                        .foregroundStyle(.primary)
                         .frame(width: 320, height: 64)
                         .clipShape(RoundedRectangle(cornerRadius: 32))
                 })
