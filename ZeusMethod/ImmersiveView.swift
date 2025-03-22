@@ -37,9 +37,14 @@ struct ImmersiveView: View {
                     sphere.position = [0, 1, -1]
                     content.add(sphere)
                 }.frame(depth: 0)
-                //            .gesture(TapGesture().onEnded {
-                //                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
-                //            })
+//                .gesture(TapGesture().onEnded {
+//                    Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
+//                    appModel.starIndexToShoot += 1
+//                    
+//                    if appModel.spheres.count <= appModel.starIndexToShoot {
+//                        appModel.gameState = .finished
+//                    }
+//                })
             }
             
             handTrackerView.frame(depth: 0)
@@ -159,6 +164,10 @@ struct ImmersiveView: View {
                                     print("0.5秒後の処理")
                                     // ここでonShootを呼び出す
                                     appModel.dispatch(.onShoot(destination: destination))
+                                }
+                                
+                                if appModel.spheres.count <= appModel.starIndexToShoot {
+                                    appModel.gameState = .finished
                                 }
                             }
                         }
