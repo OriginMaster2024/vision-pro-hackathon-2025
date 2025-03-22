@@ -44,6 +44,12 @@ struct ContentView: View {
                     zeusMessage: "まぁまぁだな"
                 )
             }
+            Spacer()
+            Button("Reset") {
+                Task {
+                    await generateStars(count: 5);
+                }
+            }
         }
     }
     
@@ -58,6 +64,7 @@ struct ContentView: View {
         }
         
         appModel.spheres = stars
+        appModel.starIndexToShoot = 0
     }
 }
 

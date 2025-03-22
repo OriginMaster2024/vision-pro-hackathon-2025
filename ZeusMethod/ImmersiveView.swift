@@ -23,29 +23,29 @@ struct ImmersiveView: View {
 
     @Environment(AppModel.self) var appModel
     
-    @State private var starIndexToShoot: Int = 0
-
     var body: some View {
-        RealityView { content in
-            // Add the initial RealityKit content
-            if let immersiveContentEntity = try? await Entity(named: "SkyDome", in: realityKitContentBundle) {
-                content.add(immersiveContentEntity)
-            }
-        }
-        
-        ForEach(appModel.spheres, id: \.self) { sphere in
+        ZStack {
             RealityView { content in
-                sphere.position = [0, 1, -1]
-                content.add(sphere)
+                // Add the initial RealityKit content
+                if let immersiveContentEntity = try? await Entity(named: "SkyDome", in: realityKitContentBundle) {
+                    content.add(immersiveContentEntity)
+                }
+            }.frame(depth: 0)
+            
+            ForEach(appModel.spheres, id: \.self) { sphere in
+                RealityView { content in
+                    sphere.position = [0, 1, -1]
+                    content.add(sphere)
+                }.frame(depth: 0)
+                //            .gesture(TapGesture().onEnded {
+                //                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
+                //            })
             }
-//            .gesture(TapGesture().onEnded {
-//                Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
-//            })
+            
+            handTrackerView.frame(depth: 0)
+            
+            constellationView.frame(depth: 0)
         }
-        
-        handTrackerView
-        
-        constellationView
     }
 
     var handTrackerView: some View {
@@ -77,6 +77,7 @@ struct ImmersiveView: View {
                 let handAnchor = update.anchor
                 
                 var wristPosition: SIMD3<Float>?
+                var knucklePosition: SIMD3<Float>?
                 var fingerPosition: SIMD3<Float>?
                 
                 for jointName in HandSkeleton.JointName.allCases {
@@ -88,19 +89,31 @@ struct ImmersiveView: View {
                                                    relativeTo: nil)
                     
                     if handAnchor.chirality == .right {
-                        // 手首の座標
+                        // 手首
                         if jointName == .wrist {
                             wristPosition = jointEntity.position
                         }
-                        // 中指の根元の座標
+                        // 中指の根元
                         if jointName == .middleFingerKnuckle {
+                            knucklePosition = jointEntity.position
+                        }
+                        // 中指の関節
+                        if jointName == .middleFingerIntermediateBase {
                             fingerPosition = jointEntity.position
                         }
                     }
                 }
                 
-                guard let wristPosition = wristPosition, let fingerPosition = fingerPosition, let tracker = handTrackerRootEntity.findEntity(named: "trackerSphere") else {
+                guard let wristPosition = wristPosition, let knucklePosition = knucklePosition, let fingerPosition = fingerPosition, let tracker = handTrackerRootEntity.findEntity(named: "trackerSphere") else {
                     continue
+                }
+                
+                var currentSphere: Entity?
+                if appModel.starIndexToShoot < appModel.spheres.count {
+                    currentSphere = appModel.spheres[appModel.starIndexToShoot]
+                    
+                    let spherePosition = (fingerPosition - wristPosition) * 2 + wristPosition
+                    currentSphere?.setPosition(spherePosition, relativeTo: nil)
                 }
                 
                 let destinations = findLineAndSphereIntersection(point1: wristPosition, point2: fingerPosition, sphereCenter: SIMD3<Float>.zero, radius: 10)
@@ -112,7 +125,6 @@ struct ImmersiveView: View {
                         destination = d
                     }
                 }
-                
                 
                 guard let destination = destination else {
                     continue;
@@ -138,9 +150,10 @@ struct ImmersiveView: View {
                         if a < -0.003 {
                             print("Punched! from: \(wristPosition), to: \(destination)")
                             appModel.punchStatus = .active
-                            if self.starIndexToShoot < 5 {
-                                Shooter.shoot(entity: appModel.spheres[self.starIndexToShoot], to: destination)
-                                self.starIndexToShoot += 1
+                            
+                            if currentSphere != nil {
+                                Shooter.shoot(entity: currentSphere!, to: destination)
+                                appModel.starIndexToShoot += 1
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     print("0.5秒後の処理")
