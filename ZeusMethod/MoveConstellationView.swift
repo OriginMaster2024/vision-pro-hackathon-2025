@@ -65,10 +65,10 @@ struct MoveConstellationView: View {
 //    }
     
     
-    let a: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
-    let c: SIMD3<Float> = .init(x: 2, y: 10, z: -40)
+    let tempCenter: SIMD3<Float> = .init(x: 0, y: 10, z: -40)
+    let a: SIMD3<Float> = .init(x: 5, y: 10, z: -40)
     var b: SIMD3<Float> {
-        findPointBDoubleAngle3D(a: a, c: c)
+        findPointBDoubleAngle3D(a: tempCenter, c: a)
     }
     
     var body: some View {
@@ -93,11 +93,11 @@ struct MoveConstellationView: View {
 //                    .frame(depth: 0)
 //            }
             
+            SphereView(position: tempCenter, radius: 0.5)
+                .frame(depth: 0)
             GlowingSphereView(position: a, scale: 1)
                 .frame(depth: 0)
-            GlowingSphereView(position: c, scale: 1)
-                .frame(depth: 0)
-            GlowingSphereView(position: b, scale: 1.5)
+            GlowingSphereView(position: b, scale: 2)
                 .frame(depth: 0)
         }
     }
