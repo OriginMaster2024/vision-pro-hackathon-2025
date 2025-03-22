@@ -21,4 +21,7 @@ class AppModel {
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
     var spheres: [Entity] = []
+    
+    // パンチの状態
+    var punchStatus = PunchStatus.waiting
 }
