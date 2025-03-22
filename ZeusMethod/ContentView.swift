@@ -69,6 +69,7 @@ struct ContentView: View {
         
         appModel.spheres = stars
         appModel.starIndexToShoot = 0
+        appModel.starPositions = []
     }
 }
 

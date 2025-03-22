@@ -14,7 +14,7 @@ import RealityKit
 class AppModel {
     
     enum Event {
-        case onShoot
+        case onShoot(destination: SIMD3<Float>)
     }
     
     let immersiveSpaceID = "ImmersiveSpace"
@@ -29,7 +29,7 @@ class AppModel {
     var starIndexToShoot: Int = 0
 
     // パンチの状態
-    var punchStatus = PunchStatus.waiting
+    var lastPunchedAt: Date?
     
     // 加速度計算のための直前2回のposition
     var prevPositions: [SIMD3<Float>] = []
@@ -87,9 +87,8 @@ class AppModel {
 extension AppModel {
     func dispatch(_ event: Event) {
         switch event {
-        case .onShoot:
-            let randomPosition = Position(x: Float.random(in: -2 ..< 3), y: Float.random(in: 2 ..< 8), z: -10)
-            starPositions.append(randomPosition)
+        case .onShoot(destination: let destination):
+            starPositions.append(Position(simd3: destination))
         }
     }
 }

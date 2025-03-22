@@ -146,10 +146,10 @@ struct ImmersiveView: View {
                     let a = v2.z - v1.z
                     
                     // ボールを飛ばす
-                    if appModel.punchStatus == .waiting {
-                        if a < -0.003 {
+                    if a < -0.003 {
+                        if appModel.lastPunchedAt == nil || Date().timeIntervalSince(appModel.lastPunchedAt!) > 1.0 {
                             print("Punched! from: \(wristPosition), to: \(destination)")
-                            appModel.punchStatus = .active
+                            appModel.lastPunchedAt = Date()
                             
                             if currentSphere != nil {
                                 Shooter.shoot(entity: currentSphere!, to: destination)
@@ -158,14 +158,9 @@ struct ImmersiveView: View {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     print("0.5秒後の処理")
                                     // ここでonShootを呼び出す
-                                    appModel.dispatch(.onShoot)
+                                    appModel.dispatch(.onShoot(destination: destination))
                                 }
                             }
-                        }
-                    }
-                    if appModel.punchStatus == .active {
-                        if a > -0.0001 {
-                            appModel.punchStatus = .waiting
                         }
                     }
                 }
