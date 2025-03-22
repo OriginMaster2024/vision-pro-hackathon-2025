@@ -145,6 +145,7 @@ struct ImmersiveView: View {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     print("0.5秒後の処理")
                                     // ここでonShootを呼び出す
+                                    appModel.dispatch(.onShoot)
                                 }
                             }
                         }
@@ -177,15 +178,6 @@ struct ImmersiveView: View {
             ForEach(appModel.lines) { line in
                 LineSegmentView(head: line.head, tail: line.tail)
                     .frame(depth: 0)
-            }
-            
-            ZStack {
-                Button(action: {
-                    appModel.dispatch(.onShoot)
-                }, label: {
-                    Text("Shoot")
-                        .fontWeight(.semibold)
-                })
             }
         }
     }
