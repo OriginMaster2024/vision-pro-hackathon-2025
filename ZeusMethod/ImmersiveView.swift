@@ -209,7 +209,7 @@ struct ImmersiveView: View {
         appModel.starIndexToShoot += 1
 
         appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
-        if appModel.starIndexToShoot < appModel.correctStarPositions.count {
+        if appModel.starIndexToShoot < appModel.guideNodes.count {
             appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 3)
         }
         
