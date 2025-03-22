@@ -8,7 +8,7 @@
 import simd
 
 class ScoreCalculator {
-    private static let COEFFICIENT: Float = 0.0
+    private static let COEFFICIENT: Float = 20.0
     
     static func calculateScore(correctStarPositions: [Position], userStarPositions: [Position]) -> Int {
         let starCount = correctStarPositions.count
@@ -20,8 +20,13 @@ class ScoreCalculator {
             .map { simd_distance($0.simd3, $1.simd3) }
             .reduce(0, +)
         let avgError: Float = totalError / Float(starCount)
+        
+        print("totalError: \(totalError)")
+        print("avgError: \(avgError)")
 
         let normalizedScore: Int = Int(100 - avgError * COEFFICIENT)
+        
+        print("normalizedScore: \(normalizedScore)")
         
         return max(0, normalizedScore)
     }

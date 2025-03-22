@@ -39,7 +39,9 @@ struct ImmersiveView: View {
 //                .gesture(TapGesture().onEnded {
 //                    Shooter.shoot(entity: sphere, to: SIMD3(0, 2, -10))
 //                    appModel.starIndexToShoot += 1
-//                    
+//
+//                    appModel.dispatch(.onShoot(destination: SIMD3(0, 2, -10)))
+//
 //                    if appModel.spheres.count <= appModel.starIndexToShoot {
 //                        appModel.gameState = .finished
 //                    }
