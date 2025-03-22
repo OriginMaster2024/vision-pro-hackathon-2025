@@ -39,11 +39,11 @@ class AppModel {
     var explosionAudio: AudioFileResource?
     
     enum GameState {
-        case notStarted
+        case select
         case inProgress
         case finished
     }
-    var gameState = GameState.notStarted
+    var gameState = GameState.select
     
     /// 正しい星の位置情報のリスト
     let correctStarPositions: [Position] = [
