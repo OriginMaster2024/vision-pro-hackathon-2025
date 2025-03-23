@@ -42,10 +42,10 @@ struct ImmersiveView: View {
             
             if appModel.showsBackgroundConstellations {
                 RealityView { content in
-                    if let linesEntity = try? await Entity(named: "ConstellationLines", in: realityKitContentBundle) {
+                    if let linesEntity = try? await Entity(named: "ConstellationLines-02", in: realityKitContentBundle) {
                         content.add(linesEntity)
                     }
-                    if let starsEntity = try? await Entity(named: "ConstellationStars", in: realityKitContentBundle) {
+                    if let starsEntity = try? await Entity(named: "ConstellationStars-04", in: realityKitContentBundle) {
                         content.add(starsEntity)
                     }
                 }.frame(depth: 0)
