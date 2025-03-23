@@ -235,7 +235,7 @@ struct ImmersiveView: View {
             }
             
             ForEach(appModel.starPositions) { position in
-                GlowingSphereView(position: position.simd3, scale: 2)
+                GlowingSphereView(position: position.simd3, scale: 0.01)
                     .frame(depth: 0)
             }
             ForEach(appModel.lines) { line in
@@ -246,7 +246,7 @@ struct ImmersiveView: View {
     }
         
     private func shootStar(star: Entity, destination: SIMD3<Float>) {
-        Shooter.shoot(entity: star, scale: star.scale, to: destination)
+        Shooter.shoot(entity: star, scale: star.scale * 20, to: destination)
         appModel.starIndexToShoot += 1
 
         appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
