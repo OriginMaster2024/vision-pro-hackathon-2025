@@ -25,7 +25,6 @@ class ZeusVoice {
     func speech(text: String) {
         let speechUtterance = AVSpeechUtterance(string: text)
         speechUtterance.voice = voice
-        speechUtterance.rate = 0.3
         speechUtterance.pitchMultiplier = 0.0001
 
         synthesizer.speak(speechUtterance)
