@@ -97,11 +97,11 @@ struct SelectView: View {
         case .easy:
             // 初級（カシオペア座）
             return  [
-                .init(x: 25.618933609339972, y: 1.0253984980616253, z: 42.92573585438465),
-                .init(x: 27.14012418116607, y: 4.847405526317356, z: 41.712304169085556),
-                .init(x: 23.711516090525105, y: 5.989845823429629, z: 43.610615126369304),
-                .init(x: 23.102241038294526, y: 9.078097685726759, z: 43.403624288957054),
                 .init(x: 19.47120334396341, y: 10.615456888791993, z: 44.81276955712765),
+                .init(x: 23.102241038294526, y: 9.078097685726759, z: 43.403624288957054),
+                .init(x: 23.711516090525105, y: 5.989845823429629, z: 43.610615126369304),
+                .init(x: 27.14012418116607, y: 4.847405526317356, z: 41.712304169085556),
+                .init(x: 25.618933609339972, y: 1.0253984980616253, z: 42.92573585438465),
             ]
         case .medium:
             // 中級（はくちょう座）
@@ -143,14 +143,62 @@ struct SelectView: View {
         }
     }
     
+    private func getBrightness(course: Course) -> [Float] {
+        switch (course) {
+        case .easy:
+            return [
+                3.35,
+                2.66,
+                2.15,
+                2.24,
+                2.28,
+            ]
+        case .medium:
+            return [
+                3.05,
+                3.89,
+                2.23,
+                1.25,
+                4.49,
+                3.21,
+                2.48,
+                2.86,
+                3.76,
+                3.8,
+            ]
+        case .hard:
+            return [
+                0.45,
+                3.39,
+                1.64,
+                1.74,
+                1.69,
+                2.25,
+                2.07,
+                0.18,
+                4.12,
+                4.45,
+                5.14,
+                4.42,
+                4.39,
+                3.19,
+                4.35,
+                4.64,
+                3.68,
+                5.33,
+                4.47,
+            ]
+        }
+    }
+    
     private func getGuideEdges(course: Course) -> [IndexedLine] {
         switch (course) {
         case .easy:
             return [
-                .init(headIndex: 4, tailIndex: 3),
-                .init(headIndex: 3, tailIndex: 2),
-                .init(headIndex: 2, tailIndex: 1),
-                .init(headIndex: 1, tailIndex: 0),
+                .init(headIndex: 0, tailIndex: 1),
+                .init(headIndex: 1, tailIndex: 2),
+                .init(headIndex: 2, tailIndex: 3),
+                .init(headIndex: 3, tailIndex: 4),
             ]
         case .medium:
             return [
@@ -199,6 +247,8 @@ struct SelectView: View {
             .converting(to: .init(x: 0, y: 20, z: -100), angleScale: 1)
         let guideEdges = getGuideEdges(course: course)
         
+        let brightness = getBrightness(course: course)
+        
         let count = guideNodePositions.count
         
         var guideNodes: [Entity] = []
@@ -218,12 +268,14 @@ struct SelectView: View {
 
         for i in 0..<count {
             if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
-                    star.position = [0, -10, 0]
-                    star.scale = .init(repeating: 0.1)
+                    star.position = .init(x: 0, y: -100, z: 100)
+                    star.scale = .init(repeating: 0.1 * (15 / (1 + brightness[i]) / (1 + brightness[i])))
                     stars.append(star)
                     print("Generated \(i+1)th star.")
             }
         }
+        
+        
         
         appModel.spheres = stars
         appModel.starIndexToShoot = 0
