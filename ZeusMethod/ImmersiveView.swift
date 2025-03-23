@@ -215,16 +215,16 @@ struct ImmersiveView: View {
             }
             
             ForEach(appModel.correctLines) { line in
-                LineSegmentView(head: line.head, tail: line.tail)
+                LineSegmentView(head: line.head, tail: line.tail, size: 0.1)
                     .frame(depth: 0)
             }
             
             ForEach(appModel.starPositions) { position in
-                GlowingSphereView(position: position.simd3, scale: 1)
+                GlowingSphereView(position: position.simd3, scale: 2)
                     .frame(depth: 0)
             }
             ForEach(appModel.lines) { line in
-                LineSegmentView(head: line.head, tail: line.tail, size: 0.1)
+                LineSegmentView(head: line.head, tail: line.tail, size: 0.2)
                     .frame(depth: 0)
             }
         }
