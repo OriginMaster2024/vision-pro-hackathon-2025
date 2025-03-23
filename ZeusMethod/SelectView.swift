@@ -293,6 +293,7 @@ struct SelectView: View {
         appModel.indexedLines = guideEdges
         appModel.starPositions = []
         appModel.starMetadataList = metadata
+        appModel.lastPunchedAt = Date()
     }
 }
 
