@@ -13,7 +13,8 @@ enum PositionConverter {
     /// targetCenter: 動かした先の点の集合の重心方向
     static func converting(
         positions: [SIMD3<Float>],
-        targetCenter: SIMD3<Float>
+        targetCenter: SIMD3<Float>,
+        angleScale: Float
     ) -> [SIMD3<Float>] {
         let center: SIMD3<Float> = {
             let sum = positions
@@ -29,7 +30,7 @@ enum PositionConverter {
             .map { scaleAnglesAroundCenter(
                 center: targetCenter,
                 original: $0,
-                angleScale: 2
+                angleScale: angleScale
             )}
         
         return roatedAndScaledPositions
