@@ -33,6 +33,15 @@
     "objectMetadataList" : [
       [
         "A4E2EBFA-A4DA-4F8E-A582-DA0AF8EE7449",
+        "root",
+        "star"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "A4E2EBFA-A4DA-4F8E-A582-DA0AF8EE7449",
         "root"
       ],
       {
