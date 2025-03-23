@@ -84,7 +84,7 @@ struct ImmersiveView: View {
             content.add(handTrackerRootEntity)
             for chirality in [HandAnchor.Chirality.left, .right] {
                 for jointName in HandSkeleton.JointName.allCases {
-                    let jointEntity = ModelEntity(mesh: .generateSphere(radius: 0.006),
+                    let jointEntity = ModelEntity(mesh: .generateSphere(radius: 0.00000000001),
                                                   materials: [SimpleMaterial()])
                     jointEntity.name = "\(jointName)\(chirality)"
                     handTrackerRootEntity.addChild(jointEntity)
