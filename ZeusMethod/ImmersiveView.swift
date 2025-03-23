@@ -224,7 +224,7 @@ struct ImmersiveView: View {
                     .frame(depth: 0)
             }
             ForEach(appModel.lines) { line in
-                LineSegmentView(head: line.head, tail: line.tail)
+                LineSegmentView(head: line.head, tail: line.tail, size: 0.05)
                     .frame(depth: 0)
             }
         }

@@ -11,6 +11,13 @@ import RealityKit
 struct LineSegmentView: View {
     let head: SIMD3<Float>
     let tail: SIMD3<Float>
+    let size: Float
+    
+    init(head: SIMD3<Float>, tail: SIMD3<Float>, size: Float = 0.01) {
+        self.head = head
+        self.tail = tail
+        self.size = size
+    }
     
     var body: some View {
         RealityView { content in
@@ -26,7 +33,7 @@ struct LineSegmentView: View {
         
         // 線（細長いボックス）の作成
         let line = ModelEntity(
-            mesh: .generateBox(size: SIMD3(0.01, 0.01, length)), // 幅0.5cmのボックス
+            mesh: .generateBox(size: SIMD3(size, size, length)),
             materials: [SimpleMaterial(color: color, isMetallic: false)]
         )
         
