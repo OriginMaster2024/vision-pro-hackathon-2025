@@ -34,7 +34,9 @@ struct ResultView: View {
             }.padding(.top, 40)
         }
         .onAppear() {
-            zeusVoice.speech(text: appModel.zeusMessage)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                zeusVoice.speech(text: appModel.zeusMessage)
+            }
         }
     }
 }

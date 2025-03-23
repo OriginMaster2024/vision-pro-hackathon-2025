@@ -9,6 +9,7 @@ import AVKit
 
 class ZeusVoice {
     private let synthesizer = AVSpeechSynthesizer()
+    private let voice = AVSpeechSynthesisVoice(identifier: "com.apple.ttsbundle.Otoya-premium")
     
     init() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -23,7 +24,7 @@ class ZeusVoice {
     
     func speech(text: String) {
         let speechUtterance = AVSpeechUtterance(string: text)
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
+        speechUtterance.voice = voice
         speechUtterance.rate = 0.3
         speechUtterance.pitchMultiplier = 0.0001
 
