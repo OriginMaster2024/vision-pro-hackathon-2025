@@ -18,6 +18,8 @@ enum Course {
 struct SelectView: View {
     @Environment(AppModel.self) var appModel
     
+    @Environment(\.dismissWindow) private var dismissWindow
+    
     var body: some View {
         VStack {
             Text("コースを選ぶ").fontKaiseiDecol(size: 70)
@@ -87,6 +89,7 @@ struct SelectView: View {
     private func selectCourse(course: Course) async {
         await generateStars(course: course);
         appModel.gameState = .inProgress
+        dismissWindow(id: appModel.windowId)
     }
     
     private func getGuideNodePositions(course: Course) -> [Position] {

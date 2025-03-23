@@ -17,6 +17,8 @@ class AppModel {
         case onShoot(destination: SIMD3<Float>)
     }
     
+    let windowId = "windowId"
+    
     let immersiveSpaceID = "ImmersiveSpace"
     enum ImmersiveSpaceState {
         case closed

@@ -24,6 +24,7 @@ struct ImmersiveView: View {
     private let backgroundSpeaker = Entity()
 
     @Environment(AppModel.self) var appModel
+    @Environment(\.openWindow) private var openWindow
     
     var body: some View {
         ZStack {
@@ -252,6 +253,7 @@ struct ImmersiveView: View {
             appModel.gameState = .finished
             appModel.gameResult = ResultGenerater.getResult(correctStarPositions: appModel.correctStarPositions, userStarPositions: appModel.starPositions)
             appModel.zeusMessage = ResultGenerater.getZeusMessage(result: appModel.gameResult)
+            openWindow(id: appModel.windowId)
         }
     }
 }
