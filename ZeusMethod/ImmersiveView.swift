@@ -220,7 +220,7 @@ struct ImmersiveView: View {
             }
             
             ForEach(appModel.starPositions) { position in
-                GlowingSphereView(position: position.simd3)
+                GlowingSphereView(position: position.simd3, scale: 0.5)
                     .frame(depth: 0)
             }
             ForEach(appModel.lines) { line in
