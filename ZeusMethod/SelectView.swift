@@ -261,7 +261,7 @@ struct SelectView: View {
             )
             entity.position = guideNodePositions[i].simd3
             if i == 0 {
-                entity.scale = .init(repeating: 3)
+                entity.scale = .init(repeating: 5)
             }
             guideNodes.append(entity)
         }

@@ -236,7 +236,7 @@ struct ImmersiveView: View {
 
         appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
         if appModel.starIndexToShoot < appModel.guideNodes.count {
-            appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 3)
+            appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 5)
         }
         
         if let audio = appModel.beamAudio {
