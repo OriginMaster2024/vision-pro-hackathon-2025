@@ -21,6 +21,7 @@ struct ImmersiveView: View {
     private let provider = HandTrackingProvider()
     private let handTrackerRootEntity = Entity()
     private let beamSpeaker = Entity()
+    private let backgroundSpeaker = Entity()
 
     @Environment(AppModel.self) var appModel
     
@@ -72,6 +73,19 @@ struct ImmersiveView: View {
                 }
                 if let audio = try? await AudioFileResource.load(named: "Explosion", configuration: configuration) {
                     appModel.explosionAudio = audio
+                }
+            }
+            .frame(depth: 0)
+            
+            RealityView { content in
+                backgroundSpeaker.position = SIMD3(0, 10, 0)
+                backgroundSpeaker.spatialAudio = SpatialAudioComponent(directivity: .beam(focus: 0.75))
+                content.add(backgroundSpeaker)
+            }
+            .task {
+                let configuration = AudioFileResource.Configuration.init()
+                if let audio = try? await AudioFileResource.load(named: "Background", configuration: configuration) {
+                    backgroundSpeaker.playAudio(audio)
                 }
             }
             .frame(depth: 0)
