@@ -272,7 +272,9 @@ struct SelectView: View {
         }
 
         for i in 0..<count {
-            if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
+            let assetName = metadata[i].name == "ベテルギウス" ? "RedSphere" : "GlowingSphere"
+            
+            if let star = try? await Entity(named: assetName, in: realityKitContentBundle) {
                     star.position = .init(x: 0, y: -100, z: 100)
                     star.scale = .init(repeating: 0.1 * (15 / (1 + metadata[i].brightness) / (1 + metadata[i].brightness)))
                     star.name = metadata[i].name
