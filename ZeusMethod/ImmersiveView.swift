@@ -79,8 +79,8 @@ struct ImmersiveView: View {
             .frame(depth: 0)
             
             RealityView { content in
-                backgroundSpeaker.position = SIMD3(0, 10, 0)
-                backgroundSpeaker.spatialAudio = SpatialAudioComponent(directivity: .beam(focus: 0.75))
+                backgroundSpeaker.position = SIMD3(0, 2, 0)
+                backgroundSpeaker.spatialAudio = SpatialAudioComponent()
                 content.add(backgroundSpeaker)
             }
             .task {
@@ -250,10 +250,13 @@ struct ImmersiveView: View {
         }
         
         if appModel.spheres.count <= appModel.starIndexToShoot {
-            appModel.gameState = .finished
             appModel.gameResult = ResultGenerater.getResult(correctStarPositions: appModel.correctStarPositions, userStarPositions: appModel.starPositions)
             appModel.zeusMessage = ResultGenerater.getZeusMessage(result: appModel.gameResult)
-            openWindow(id: appModel.windowId)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                appModel.gameState = .finished
+                openWindow(id: appModel.windowId)
+            }
         }
     }
 }
