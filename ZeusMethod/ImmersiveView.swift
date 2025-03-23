@@ -42,10 +42,10 @@ struct ImmersiveView: View {
             
             if appModel.showsBackgroundConstellations {
                 RealityView { content in
-                    if let linesEntity = try? await Entity(named: "ConstellationLines", in: realityKitContentBundle) {
+                    if let linesEntity = try? await Entity(named: "ConstellationLines-02", in: realityKitContentBundle) {
                         content.add(linesEntity)
                     }
-                    if let starsEntity = try? await Entity(named: "ConstellationStars", in: realityKitContentBundle) {
+                    if let starsEntity = try? await Entity(named: "ConstellationStars-04", in: realityKitContentBundle) {
                         content.add(starsEntity)
                     }
                 }.frame(depth: 0)
@@ -230,16 +230,16 @@ struct ImmersiveView: View {
             }
             
             ForEach(appModel.correctLines) { line in
-                LineSegmentView(head: line.head, tail: line.tail)
+                LineSegmentView(head: line.head, tail: line.tail, size: 0.1)
                     .frame(depth: 0)
             }
             
             ForEach(appModel.starPositions) { position in
-                GlowingSphereView(position: position.simd3)
+                GlowingSphereView(position: position.simd3, scale: 2)
                     .frame(depth: 0)
             }
             ForEach(appModel.lines) { line in
-                LineSegmentView(head: line.head, tail: line.tail)
+                LineSegmentView(head: line.head, tail: line.tail, size: 0.2)
                     .frame(depth: 0)
             }
         }
@@ -251,7 +251,7 @@ struct ImmersiveView: View {
 
         appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
         if appModel.starIndexToShoot < appModel.guideNodes.count {
-            appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 3)
+            appModel.guideNodes[appModel.starIndexToShoot].scale = .init(repeating: 10)
         }
         
         if let audio = appModel.beamAudio {
