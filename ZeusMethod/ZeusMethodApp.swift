@@ -14,7 +14,7 @@ struct ZeusMethodApp: App {
     @State private var avPlayerViewModel = AVPlayerViewModel()
     
     var body: some Scene {
-        WindowGroup() {
+        WindowGroup(id: appModel.windowId) {
             if appModel.immersiveSpaceState == .closed {
                 WelcomeView().environment(appModel)
             } else if appModel.immersiveSpaceState == .open {
