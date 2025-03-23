@@ -96,7 +96,7 @@ struct ImmersiveView: View {
                 mesh: .generateSphere(radius: 0.1),
                 materials: [SimpleMaterial(color: .red, isMetallic: false)]
             )
-            sphere.position = .init(x: 1, y: 2, z: -4)
+            sphere.position = .init(x: 0, y: -100, z: 100)
             sphere.name = "trackerSphere"
             handTrackerRootEntity.addChild(sphere)
         }
@@ -216,7 +216,7 @@ struct ImmersiveView: View {
     }
         
     private func shootStar(star: Entity, destination: SIMD3<Float>) {
-        Shooter.shoot(entity: star,scale: [0.1, 0.1, 0.1], to: destination)
+        Shooter.shoot(entity: star, scale: star.scale, to: destination)
         appModel.starIndexToShoot += 1
 
         appModel.guideNodes[appModel.starIndexToShoot - 1].scale = .init(repeating: 1)
