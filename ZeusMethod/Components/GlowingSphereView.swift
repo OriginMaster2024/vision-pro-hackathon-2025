@@ -12,12 +12,19 @@ import RealityKitContent
 
 struct GlowingSphereView: View {
     let position: SIMD3<Float>
+    let scale: Float
+    
+    init(position: SIMD3<Float>, scale: Float = 0.1) {
+        self.position = position
+        self.scale = scale
+    }
+
     
     var body: some View {
         RealityView { content in
             if let entity = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
                 entity.position = position
-                entity.scale = .init(repeating: 0.1)
+                entity.scale = .init(repeating: scale)
                 content.add(entity)
             }
         }

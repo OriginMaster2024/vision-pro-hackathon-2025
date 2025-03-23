@@ -181,6 +181,8 @@ struct SelectView: View {
         
         let course = Course.hard
         let guideNodePositions = getGuideNodePositions(course: course)
+            // FIXME: 値は要審議
+            .converting(to: .init(x: 0, y: 20, z: -100), angleScale: 1)
         let guideEdges = getGuideEdges(course: course)
         
         var guideNodes: [Entity] = []
