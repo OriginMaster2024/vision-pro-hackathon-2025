@@ -65,6 +65,9 @@ class AppModel {
             return LineSegment(head: head.simd3, tail: tail.simd3)
         }
     }
+    
+    var starMetadataList: [StarMetadata] = []
+    
     /// パンチによって指定された星の位置情報のリスト
     var starPositions: [Position] = []
     /// パンチによる星座の線分のリスト

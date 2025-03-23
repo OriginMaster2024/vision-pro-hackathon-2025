@@ -52,9 +52,24 @@ struct ImmersiveView: View {
             }
             
             ForEach(appModel.spheres, id: \.self) { sphere in
-                RealityView { content in
+                RealityView { content, attachments in
                     sphere.spatialAudio = SpatialAudioComponent(directivity: .beam(focus: 0.75))
                     content.add(sphere)
+
+                    if let attachment = attachments.entity(for: "tag") {
+                        attachment.setPosition([0, (-3-sphere.scale.y) / 6, 0], relativeTo: nil)
+                        sphere.addChild(attachment)
+                    }
+                } attachments: {
+                    Attachment(id: "tag") {
+                        VStack {
+                            Text(sphere.name)
+                                .padding(.all, 15)
+                                .font(.system(size: 100.0))
+                                .bold()
+                        }
+                        .tag("tag")
+                    }
                 }.frame(depth: 0)
             }
             

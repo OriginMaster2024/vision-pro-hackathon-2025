@@ -15,6 +15,11 @@ enum Course {
     case hard
 }
 
+struct StarMetadata {
+    var name: String
+    var brightness: Float
+}
+
 struct SelectView: View {
     @Environment(AppModel.self) var appModel
     
@@ -143,50 +148,50 @@ struct SelectView: View {
         }
     }
     
-    private func getBrightness(course: Course) -> [Float] {
+    private func getStarMetadata(course: Course) -> [StarMetadata] {
         switch (course) {
         case .easy:
             return [
-                3.35,
-                2.66,
-                2.15,
-                2.24,
-                2.28,
+                .init(name: "セギン", brightness: 3.35),
+                .init(name: "ルクバー", brightness: 2.66),
+                .init(name: "ツィー", brightness: 2.15),
+                .init(name: "シェダル", brightness: 2.24),
+                .init(name: "カフ", brightness: 2.28),
             ]
         case .medium:
             return [
-                3.05,
-                3.89,
-                2.23,
-                1.25,
-                4.49,
-                3.21,
-                2.48,
-                2.86,
-                3.76,
-                3.8,
+                .init(name: "アルビレオ", brightness: 3.05),
+                .init(name: "", brightness:3.89),
+                .init(name: "サドル", brightness:2.23),
+                .init(name: "デネブ", brightness:1.25),
+                .init(name: "", brightness:4.49),
+                .init(name: "", brightness: 3.21),
+                .init(name: "アルジャナー", brightness: 2.48),
+                .init(name: "ファワリス", brightness: 2.86),
+                .init(name: "", brightness: 3.76),
+                .init(name: "", brightness: 3.8),
             ]
         case .hard:
             return [
-                0.45,
-                3.39,
-                1.64,
-                1.74,
-                1.69,
-                2.25,
-                2.07,
-                0.18,
-                4.12,
-                4.45,
-                5.14,
-                4.42,
-                4.39,
-                3.19,
-                4.35,
-                4.64,
-                3.68,
-                5.33,
-                4.47,
+                .init(name: "ベテルギウス", brightness: 0.45),
+                .init(name: "メイサ", brightness: 3.39),
+                .init(name: "ベラトリクス", brightness: 1.64),
+                .init(name: "アルニタク", brightness: 1.74),
+                .init(name: "アルニラム", brightness: 1.69),
+                .init(name: "ミンタカ", brightness: 2.25),
+                .init(name: "サイフ", brightness: 2.07),
+                .init(name: "リゲル", brightness: 0.18),
+                .init(name: "", brightness: 4.12),
+                .init(name: "", brightness: 4.45),
+                .init(name: "", brightness: 5.14),
+                .init(name: "", brightness: 4.42),
+                .init(name: "", brightness: 4.39),
+                .init(name: "タビト", brightness: 3.19),
+                .init(name: "", brightness: 4.35),
+                .init(name: "", brightness: 4.64),
+                .init(name: "", brightness: 3.68),
+                .init(name: "", brightness: 5.33),
+                .init(name: "", brightness: 4.47),
             ]
         }
     }
@@ -247,7 +252,7 @@ struct SelectView: View {
             .converting(to: .init(x: 0, y: 20, z: -100), angleScale: 1)
         let guideEdges = getGuideEdges(course: course)
         
-        let brightness = getBrightness(course: course)
+        let metadata = getStarMetadata(course: course)
         
         let count = guideNodePositions.count
         
@@ -269,7 +274,8 @@ struct SelectView: View {
         for i in 0..<count {
             if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
                     star.position = .init(x: 0, y: -100, z: 100)
-                    star.scale = .init(repeating: 0.1 * (15 / (1 + brightness[i]) / (1 + brightness[i])))
+                    star.scale = .init(repeating: 0.1 * (15 / (1 + metadata[i].brightness) / (1 + metadata[i].brightness)))
+                    star.name = metadata[i].name
                     stars.append(star)
                     print("Generated \(i+1)th star.")
             }
@@ -283,6 +289,7 @@ struct SelectView: View {
         appModel.guideNodes = guideNodes
         appModel.indexedLines = guideEdges
         appModel.starPositions = []
+        appModel.starMetadataList = metadata
     }
 }
 
