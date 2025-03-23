@@ -24,17 +24,17 @@ struct SelectView: View {
             HStack(spacing: 40) {
                 CourseButton(level: "初級", constellation: "カシオペア座") {
                     Task {
-                        await selectCourse()
+                        await selectCourse(course: .easy)
                     }
                 }
                 CourseButton(level: "中級", constellation: "はくちょう座") {
                     Task {
-                        await selectCourse()
+                        await selectCourse(course: .medium)
                     }
                 }
                 CourseButton(level: "上級", constellation: "オリオン座") {
                     Task {
-                        await selectCourse()
+                        await selectCourse(course: .hard)
                     }
                 }
             }
@@ -84,8 +84,8 @@ struct SelectView: View {
         }
     }
     
-    private func selectCourse() async {
-        await generateStars(count: 5);
+    private func selectCourse(course: Course) async {
+        await generateStars(course: course);
         appModel.gameState = .inProgress
     }
     
@@ -167,23 +167,15 @@ struct SelectView: View {
         }
     }
     
-    private func generateStars(count: Int) async {
+    private func generateStars(course: Course) async {
         var stars: [Entity] = []
-
-        for i in 0..<count {
-            if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
-                    star.position = [0, -10, 0]
-                    star.scale = .init(repeating: 0.1)
-                    stars.append(star)
-                    print("Generated \(i+1)th star.")
-            }
-        }
         
-        let course = Course.hard
         let guideNodePositions = getGuideNodePositions(course: course)
             // FIXME: 値は要審議
             .converting(to: .init(x: 0, y: 20, z: -100), angleScale: 1)
         let guideEdges = getGuideEdges(course: course)
+        
+        let count = guideNodePositions.count
         
         var guideNodes: [Entity] = []
         for i in 0..<count {
@@ -200,6 +192,15 @@ struct SelectView: View {
             guideNodes.append(entity)
         }
 
+        for i in 0..<count {
+            if let star = try? await Entity(named: "GlowingSphere", in: realityKitContentBundle) {
+                    star.position = [0, -10, 0]
+                    star.scale = .init(repeating: 0.1)
+                    stars.append(star)
+                    print("Generated \(i+1)th star.")
+            }
+        }
+        
         appModel.spheres = stars
         appModel.starIndexToShoot = 0
         appModel.correctStarPositions = guideNodePositions
