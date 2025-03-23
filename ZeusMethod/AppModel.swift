@@ -93,7 +93,7 @@ class AppModel {
         switch gameState {
         case .select: true
         case .inProgress: false
-        case .finished: true
+        case .finished: false
         }
     }
 }
