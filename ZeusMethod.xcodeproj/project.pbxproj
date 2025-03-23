@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84C906B02D8E57DB00AA5981 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 84C906AF2D8E57DB00AA5981 /* RealityKitContent */; };
+		5124AAB82D8EF77B000D4DC9 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 5124AAB72D8EF77B000D4DC9 /* RealityKitContent */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,6 +21,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		51F4EC1F2D8EF5C900657733 /* Package.realitycomposerpro */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Package.realitycomposerpro; path = Packages/RealityKitContent/Package.realitycomposerpro; sourceTree = "<group>"; };
+		51F4EC202D8EF5DF00657733 /* RealityKitContent.rkassets */ = {isa = PBXFileReference; lastKnownFileType = folder.rkassets; path = RealityKitContent.rkassets; sourceTree = "<group>"; };
+		51F4EC212D8EF5DF00657733 /* RealityKitContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitContent.swift; sourceTree = "<group>"; };
 		84C906AA2D8E57DB00AA5981 /* ZeusMethod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZeusMethod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C906AE2D8E57DB00AA5981 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		84C906C92D8E57DE00AA5981 /* ZeusMethodTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeusMethodTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C906B02D8E57DB00AA5981 /* RealityKitContent in Frameworks */,
+				5124AAB82D8EF77B000D4DC9 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,12 +74,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		51F4EC1E2D8EF5B700657733 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51F4EC222D8EF5DF00657733 /* RealityKitContent */,
+				51F4EC1F2D8EF5C900657733 /* Package.realitycomposerpro */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		51F4EC222D8EF5DF00657733 /* RealityKitContent */ = {
+			isa = PBXGroup;
+			children = (
+				51F4EC202D8EF5DF00657733 /* RealityKitContent.rkassets */,
+				51F4EC212D8EF5DF00657733 /* RealityKitContent.swift */,
+			);
+			name = RealityKitContent;
+			path = Packages/RealityKitContent/Sources/RealityKitContent;
+			sourceTree = "<group>";
+		};
 		84C906A12D8E57DB00AA5981 = {
 			isa = PBXGroup;
 			children = (
 				84C906AC2D8E57DB00AA5981 /* ZeusMethod */,
 				84C906AD2D8E57DB00AA5981 /* Packages */,
 				84C906CC2D8E57DE00AA5981 /* ZeusMethodTests */,
+				51F4EC1E2D8EF5B700657733 /* Frameworks */,
 				84C906AB2D8E57DB00AA5981 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,7 +141,7 @@
 			);
 			name = ZeusMethod;
 			packageProductDependencies = (
-				84C906AF2D8E57DB00AA5981 /* RealityKitContent */,
+				5124AAB72D8EF77B000D4DC9 /* RealityKitContent */,
 			);
 			productName = ZeusMethod;
 			productReference = 84C906AA2D8E57DB00AA5981 /* ZeusMethod.app */;
@@ -473,7 +496,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		84C906AF2D8E57DB00AA5981 /* RealityKitContent */ = {
+		5124AAB72D8EF77B000D4DC9 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
 		};
