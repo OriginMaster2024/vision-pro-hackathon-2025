@@ -64,6 +64,11 @@ struct MoveConstellationView: View {
                 angleScale: 2
             )}
             .map { Position(simd3: $0) }
+        
+        /*
+         // これでもできるようになった
+         positions.converting(to: targetCenter, angleScale: 2)
+         */
     }
     
     
